@@ -33,6 +33,21 @@ class VTree {
     height = rect.height;
     canvas.width = width;
     
+    if (left != null) { 
+      left.canvas = canvas;
+      left.y = y + 40;
+      left.x = x - 70;
+      left.display();
+    }
+    if (right != null) {
+      right.canvas = canvas;
+      right.y = y + 40;
+      right.x = x + 70;
+      right.display();
+    }
+    
+    
+    
     // begin animation loop
     window.requestAnimationFrame(draw);
   }
@@ -42,24 +57,58 @@ class VTree {
   * Draws the current node and recurses on the children.
   */
     var context = canvas.context2D;
+    context..lineWidth = 1
+           ..strokeStyle = "black";
+    
+    if (left != null) { 
+      context..beginPath()
+             ..moveTo(x, y)
+             ..lineTo(left.x, left.y)
+             ..stroke()
+             ..closePath();
+      left.draw(_);
+    }
+    if (right != null) {
+      context..beginPath()
+             ..moveTo(x, y)
+             ..lineTo(right.x, right.y)
+             ..stroke()
+             ..closePath();
+
+      right.draw(_);
+    }
+    
     // Draw the figure.
     context..lineWidth = 0.5
            ..fillStyle = color
-           ..strokeStyle = color;
+           ..textAlign = "center";
     
     context..beginPath()
-           ..arc(width/2,height/2, 20, 0, PI*2, false)
+           ..arc(x,y, 20, 0, PI*2, false)
            ..fill()
            ..closePath();
+    
+    context..fillStyle = "black"
+           ..font = "16px sans-serif";
+    context..beginPath()
+           ..fillText(value.toString(), x, y+6)
+           ..fill()
+           ..closePath();
+    
     
   }
 }
 
 void main() {
   CanvasElement canvas = query("#area");
+  
   // Sample VTree for testing purposes
-  VTree sample = new VTree(5, new VTree(6, null, null), null);
+  VTree sample = new VTree(5, new VTree(6, new VTree(7, null, null), null), new VTree(4, null, null));
+  
+  
   sample.canvas = canvas;
+  sample.x = canvas.parent.client.width/2;
+  sample.y = 0.15*canvas.parent.client.height;
   scheduleMicrotask(sample.display);
 }
 
