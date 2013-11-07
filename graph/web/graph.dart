@@ -3,6 +3,25 @@ import 'dart:collection';
 class DirectedGraph extends IterableBase{
   final HashMap dGraph = new HashMap();
   
+  // Constructors
+  // Creates a graph from a given adjacency matrix
+  DirectedGraph.fromMatrix(List<List> adj) {
+    // add each edge node
+    int height = adj.length;
+    for (var i = 0; i < height; i++) {
+      if (adj[i].length != height) {
+        throw new ArgumentError("Adjacency matrix must be square.");
+      }
+      this.addNode(i);
+    }
+    // add each edge
+    for (var i = 0; i < adj.length; i++) {
+      for (var j = 0; j < adj[i].length; j++) {
+        addEdge(i, j);
+      }
+    }
+  }
+  
   // Adds a new node to the graph.
   // If the node already exists the graph is unchanged.
   HashMap addNode(var node) {
