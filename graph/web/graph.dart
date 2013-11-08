@@ -1,5 +1,6 @@
 import 'dart:collection';
-import 'dart:async';
+import 'dart:html';
+import 'dart:math';
 
 class DirectedGraph extends IterableBase{
   final HashMap dGraph = new HashMap();
@@ -82,20 +83,62 @@ class DirectedGraph extends IterableBase{
 
 class VDirectedGraph extends DirectedGraph {
   CanvasElement canvas; // Canvas to draw to
+  HashMap positions = new HashMap();
   
-  VDirectedGraph.fromMatrix(List<List> adj) {
-    
-  }
+  VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
   
+  // Called after canvas has been set.
+  // Initializes the position of each node and begins drawing.
+  // If canvas is not set throws Exception.
   void display() {
     if (canvas != null) { // make sure we have a canvas
-      scheduleMicrotask(draw);
+      for (var node in this) {
+        // give a position to each node
+        // positions currently stored as a 2-element list
+        positions[node] = [canvas.parent.client.width/2,
+                           canvas.parent.client.height/2];
+      }
+      requestUpdate(); // Begin updating the display
     } else {
-      throw new CanvasException("Canvas does not exist.");
+      throw new Exception("Canvas needed to display on");
     }
   }
   
-  void draw(num _) {
-    print("Drawing");
+  void requestUpdate() {
+    window.requestAnimationFrame(update);
+  }
+  
+  void update(num _) {
+    for (var first in this) {
+      // Adjust the position of each node
+      for (var second in this) {
+        
+      }
+    }
+    draw(); // draw the nodes
+    requestUpdate();
+  }
+  
+  void draw() {
+    var context = canvas.context2D;
+    context..lineWidth = 1
+           ..strokeStyle = "black"
+           ..font = "16px sans-serif"
+           ..textAlign = "center";
+    for (var node in this) {
+      // draw each node in the graph
+      context..fillStyle = "purple"
+             ..beginPath()
+             ..arc(positions[node][0], positions[node][1],
+                   20, 0, PI*2, false)
+             ..fill()
+             ..stroke()
+             ..closePath();
+      // Label each node
+      context..fillStyle = "white"
+             ..beginPath()
+             ..fillText(node.toString(),positions[node][0], positions[node][1] + 6)
+             ..closePath();
+    }
   }
 }
