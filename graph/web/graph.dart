@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:async';
 
 class DirectedGraph extends IterableBase{
   final HashMap dGraph = new HashMap();
@@ -77,4 +78,24 @@ class DirectedGraph extends IterableBase{
   Iterator get iterator => dGraph.keys.iterator;
   // Returns the number of nodes in the graph
   int get length => dGraph.length;
+}
+
+class VDirectedGraph extends DirectedGraph {
+  CanvasElement canvas; // Canvas to draw to
+  
+  VDirectedGraph.fromMatrix(List<List> adj) {
+    
+  }
+  
+  void display() {
+    if (canvas != null) { // make sure we have a canvas
+      scheduleMicrotask(draw);
+    } else {
+      throw new CanvasException("Canvas does not exist.");
+    }
+  }
+  
+  void draw(num _) {
+    print("Drawing");
+  }
 }
