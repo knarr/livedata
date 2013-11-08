@@ -4,10 +4,10 @@ import 'dart:async';
 
 void main() {
 
-  List<List> adj = [[1,0,0,1],
-                    [0,1,1,1],
-                    [0,0,1,0],
-                    [1,1,0,0]];
+  List<List> adj = [[0,0,0,0],
+                    [0,0,0,0],
+                    [0,0,0,0],
+                    [1,1,1,0]];
 
   DirectedGraph graph = new VDirectedGraph.fromMatrix(adj);
   
