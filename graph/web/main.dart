@@ -24,7 +24,8 @@ void main() {
   List<List> neig = [["A",["B","C"]],
                      ["B",["D","E"]],
                      ["C",["F","G"]],
-                     ["F",["H","I"]]];
+                     ["F",["H","I"]],
+                     ["G",["J","K"]]];
   
   List<List> edges = [["A","C"],
                       ["B","D"],
