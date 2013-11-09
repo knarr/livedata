@@ -14,6 +14,8 @@ class VDirectedGraph extends DirectedGraph {
   int XMAX;
   final int YMIN = 25;
   int YMAX;
+  final int CONNECTEDEQUILIBRIUM = 100;
+  final int FREEEQUILIBRIUM = 300;
   
   VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
   VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
@@ -63,7 +65,7 @@ class VDirectedGraph extends DirectedGraph {
     for (var first in this) {
       // Adjust the position of each node
       for (var second in this) {
-        int equilibrium = (dGraph[first].contains(second)) ? 100 : 300;
+        int equilibrium = (dGraph[first].contains(second)) ? CONNECTEDEQUILIBRIUM : FREEEQUILIBRIUM;
         // all nodes repel each other
         num distance = dist(positions[first], positions[second])+0.001;
         num dx = (positions[first][0] - positions[second][0])/distance*(equilibrium - distance)/2;
