@@ -23,9 +23,9 @@ void main() {
   List<List> adj3 = [[0, 1, 0],
                      [1, 0, 1],
                      [1, 0, 0]];
-  List<List> neig = [["A",["B","C",1,2,3,4,5]],
+  List<List> neig = [["A",["B","C"]],
                      ["B",["D","E"]],
-                     ["C",["F","G",3,5,9,10]],
+                     ["C",["F","G"]],
                      ["F",["H","I"]],
                      ["G",["J","K"]],
                      ["a",["b","c","f"]],
@@ -37,7 +37,7 @@ void main() {
                       ["B","A"]];
 
   //DirectedGraph graph = new VDirectedGraph.fromMatrix(adj3);
-  graph = new VDirectedGraph.fromNeighbours(neig);
+  graph = new VDirectedGraph.fromMatrix(adj2);
   
   // Create Visualization
   graph.canvas = querySelector("#area"); // get the canvas from the html
