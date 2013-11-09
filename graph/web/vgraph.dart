@@ -16,6 +16,7 @@ class VDirectedGraph extends DirectedGraph {
   int YMAX;
   
   VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
+  VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
   
   // Called after canvas has been set.
   // Initializes the position of each node and begins drawing.

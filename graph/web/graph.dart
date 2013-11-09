@@ -23,6 +23,16 @@ class DirectedGraph extends IterableBase {
       }
     }
   }
+  // Creates a graph from a list of vertices and edges which it connects to
+  DirectedGraph.fromNeighbours(List<List> nodes) {
+    for (List pair in nodes) {
+      addNode(pair[0]);
+      for (var neighbour in pair[1]) {
+       if (!dGraph.containsKey(neighbour)) addNode(neighbour);
+       addEdge(pair[0], neighbour);
+      }
+    }
+  }
   
   // Adds a new node to the graph.
   // If the node already exists the graph is unchanged.
