@@ -35,7 +35,7 @@ void main() {
                       ["B","A"]];
 
   //DirectedGraph graph = new VDirectedGraph.fromMatrix(adj3);
-  graph = new VDirectedGraph.fromNeighbours(neig);
+  graph = new VDirectedGraph.fromMatrix(adj);
   
   // Create Visualization
   graph.canvas = querySelector("#area"); // get the canvas from the html
