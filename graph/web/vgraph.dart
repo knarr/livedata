@@ -17,6 +17,7 @@ class VDirectedGraph extends DirectedGraph {
   
   VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
   VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
+  VDirectedGraph.fromEdges(List<List> edges): super.fromEdges(edges);
   
   // Called after canvas has been set.
   // Initializes the position of each node and begins drawing.

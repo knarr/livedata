@@ -4,7 +4,7 @@ import 'vgraph.dart';
 import 'dart:async';
 
 void main() {
-
+  // example graphs
   List<List> adj = [[1,0,0,0,0],
                     [0,0,1,0,0],
                     [0,0,0,1,0],
@@ -25,9 +25,14 @@ void main() {
                      ["B",["D","E"]],
                      ["C",["F","G"]],
                      ["F",["H","I"]]];
+  
+  List<List> edges = [["A","C"],
+                      ["B","D"],
+                      ["E","F"],
+                      ["B","A"]];
 
   //DirectedGraph graph = new VDirectedGraph.fromMatrix(adj3);
-  DirectedGraph graph = new VDirectedGraph.fromNeighbours(neig);
+  DirectedGraph graph = new VDirectedGraph.fromEdges(edges);
   
   // Create Visualization
   graph.canvas = query("#area"); // get the canvas from the html

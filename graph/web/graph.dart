@@ -33,6 +33,17 @@ class DirectedGraph extends IterableBase {
       }
     }
   }
+  // Creates a graph from a list of edge pairs of nodes
+  DirectedGraph.fromEdges(List<List> edges) {
+    // First add all the nodes
+    for (List edge in edges) {
+      addNode(edge[0]);
+      addNode(edge[1]);
+    }
+    for (List edge in edges) {
+      addEdge(edge[0],edge[1]);
+    }
+  }
   
   // Adds a new node to the graph.
   // If the node already exists the graph is unchanged.
