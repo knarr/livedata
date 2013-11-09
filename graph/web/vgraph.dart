@@ -8,14 +8,17 @@ import 'dart:collection';
 num dist(List p1, List p2) => sqrt(pow(p1[0]-p2[0], 2) + pow(p1[1]-p2[1],2));
 
 class VDirectedGraph extends DirectedGraph {
-  CanvasElement canvas; // Canvas to draw to
-  HashMap positions = new HashMap(); 
   final int XMIN = 25;
   int XMAX;
   final int YMIN = 25;
   int YMAX;
   final int CONNECTEDEQUILIBRIUM = 100;
   final int FREEEQUILIBRIUM = 300;
+  
+  CanvasElement canvas; // Canvas to draw to
+  HashMap positions = new HashMap(); 
+  num scaleFactor = 1; // used for scaling the canvas
+  
   
   VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
   VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
@@ -40,7 +43,6 @@ class VDirectedGraph extends DirectedGraph {
   // If canvas is not set throws Exception.
   void display() {
     if (canvas != null) { // make sure we have a canvas
-      
       // Random Number Generator to produce initial variation
       var rng = new Random();
       YMAX = canvas.parent.clientHeight-25;
@@ -76,7 +78,7 @@ class VDirectedGraph extends DirectedGraph {
         positions[second][1] -= dy/10;
         
         //buffered screen-edge collision prevention
-        if (positions[first][0] > XMAX) positions[first][0] = XMAX;
+        /*if (positions[first][0] > XMAX) positions[first][0] = XMAX;
         if (positions[first][0] < XMIN) positions[first][0] = XMIN;
         if (positions[first][1] > YMAX) positions[first][1] = YMAX;
         if (positions[first][1] < YMIN) positions[first][1] = YMIN;
@@ -84,20 +86,42 @@ class VDirectedGraph extends DirectedGraph {
         if (positions[second][0] < XMIN) positions[second][0] = XMIN;
         if (positions[second][1] > YMAX) positions[second][1] = YMAX;
         if (positions[second][1] < YMIN) positions[second][1] = YMIN;
+        */
       }
     }
     var context = canvas.context2D;
-    clearCanvas(context, 
-        canvas.parent.client.width,
-        canvas.parent.client.height); // clear the canvas
+    clearCanvas(context); // clear the canvas
+    scale(context); // Scale the canvas to include all the nodes
     drawEdges(context); // Draw the edges first so that the nodes overlay
     drawNodes(context); // Draw the nodes
     requestUpdate();
   }
   
   // clears the canvas so that the graph can be redrawn.
-  void clearCanvas(CanvasRenderingContext2D context, int width, int height) {
-    context.clearRect(0, 0, width, height);
+  void clearCanvas(CanvasRenderingContext2D context) {
+    num width = canvas.width*scaleFactor;
+    num height = canvas.height*scaleFactor;
+    context.clearRect(-100, -100, width+100, height+100);
+  }
+  
+  // Scales the canvas so that all nodes will be visible
+  void scale(CanvasRenderingContext2D context) {
+    num left = canvas.width;
+    num right = 0;
+    num up = 0;
+    num down = canvas.height;
+    for (var node in this) {
+      left = min(left, positions[node][0]);
+      right = max(right, positions[node][0]);
+      up = min(up, positions[node][1]);
+      down = max(down, positions[node][1]);
+    }
+    num nsf = max((right - left + 100)/canvas.height,
+                  (down - up + 100)/canvas.width);
+    context.translate(canvas.width/2, canvas.height/2);
+    context.scale(scaleFactor/nsf, scaleFactor/nsf);
+    context.translate(-canvas.width/2, -canvas.height/2);
+    scaleFactor = nsf;
   }
   
   // Draws the edges to the given context
