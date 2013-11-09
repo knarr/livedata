@@ -99,8 +99,8 @@ class VDirectedGraph extends DirectedGraph {
   
   // clears the canvas so that the graph can be redrawn.
   void clearCanvas(CanvasRenderingContext2D context) {
-    num width = canvas.width*scaleFactor;
-    num height = canvas.height*scaleFactor;
+    num width = canvas.width*scaleFactor*1.2;
+    num height = canvas.height*scaleFactor*1.2;
     context.clearRect(-100, -100, width+100, height+100);
   }
   
@@ -116,8 +116,8 @@ class VDirectedGraph extends DirectedGraph {
       up = min(up, positions[node][1]);
       down = max(down, positions[node][1]);
     }
-    num nsf = max((right - left + 100)/canvas.height,
-                  (down - up + 100)/canvas.width);
+    num nsf = max((right - left + 120)/canvas.height,
+                  (down - up + 120)/canvas.width);
     context.translate(canvas.width/2, canvas.height/2);
     context.scale(scaleFactor/nsf, scaleFactor/nsf);
     context.translate(-canvas.width/2, -canvas.height/2);
