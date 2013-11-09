@@ -3,6 +3,8 @@ import 'graph.dart';
 import 'vgraph.dart';
 import 'dart:async';
 
+VDirectedGraph graph;
+
 void main() {
   // example graphs
   List<List> adj = [[1,0,0,0,0],
@@ -32,9 +34,19 @@ void main() {
                       ["B","A"]];
 
   //DirectedGraph graph = new VDirectedGraph.fromMatrix(adj3);
-  DirectedGraph graph = new VDirectedGraph.fromNeighbours(neig);
+  graph = new VDirectedGraph.fromNeighbours(neig);
   
   // Create Visualization
-  graph.canvas = query("#area"); // get the canvas from the html
+  graph.canvas = querySelector("#area"); // get the canvas from the html
   scheduleMicrotask(graph.display);
+  
+  querySelector("#node-add").onClick.listen(createNode);
+}
+
+void createNode(MouseEvent event) {
+  String name = querySelector("#node-name").value;
+  if (name != "") {
+    graph.addNode(name);
+    name = "";
+  }
 }

@@ -19,6 +19,20 @@ class VDirectedGraph extends DirectedGraph {
   VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
   VDirectedGraph.fromEdges(List<List> edges): super.fromEdges(edges);
   
+  // Overwrite DirectedGraph.addNode so that the position can be added
+  HashMap addNode(var node) {
+    super.addNode(node);
+    if (!positions.containsKey(node)) {
+      var rng = new Random();
+      if (canvas != null) {
+        positions[node] = [canvas.parent.client.width/2 + rng.nextDouble(),
+                           canvas.parent.client.height/2 + rng.nextDouble()];
+      } else {
+        positions[node] = [rng.nextDouble(), rng.nextDouble()];
+      }
+    }
+  }
+  
   // Called after canvas has been set.
   // Initializes the position of each node and begins drawing.
   // If canvas is not set throws Exception.
@@ -120,8 +134,6 @@ class VDirectedGraph extends DirectedGraph {
              ..beginPath()
              ..fillText(node.toString(),positions[node][0], positions[node][1] + 6)
              ..closePath();
-      
-      
     }
   }
 }
