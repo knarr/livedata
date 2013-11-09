@@ -102,7 +102,7 @@ class VDirectedGraph extends DirectedGraph {
   
   // Draws the edges to the given context
   void drawEdges(CanvasRenderingContext2D context) {
-    context..lineWidth = 1.5
+    context..lineWidth = 3
            ..strokeStyle = "black";
     for (var node in this) {
       for (var edge in edgesFrom(node)) {
