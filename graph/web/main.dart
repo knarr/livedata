@@ -51,6 +51,7 @@ void createNode(MouseEvent event) {
     graph.addNode(name);
     name = "";
   }
+  
 }
 
 void addEdge(MouseEvent event) {
