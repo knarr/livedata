@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'nosuchelement.dart';
 
 class DirectedGraph extends IterableBase {
   final HashMap<Object, HashSet> dGraph = new HashMap();
@@ -60,7 +61,8 @@ class DirectedGraph extends IterableBase {
     if (dGraph.containsKey(start) && dGraph.containsKey(dest)) {
       dGraph[start].add(dest);
     } else {
-      throw new NoSuchElementException("Both nodes must be in the graph.");
+      try{new NoSuchElementException("Both nodes must be in the graph.");} catch(e){print(e);}
+      return null;
     }
   }
   
@@ -81,7 +83,8 @@ class DirectedGraph extends IterableBase {
     if (dGraph.containsKey(start) && dGraph.containsKey(end)) {
       return dGraph[start].contains(end);
     } else {
-      throw new NoSuchElementException("Both nodes must be in the graph.");
+      try {new NoSuchElementException("Both nodes must be in the graph.");} catch (exception){ print(exception);}
+      return false;
     }
   }
   
