@@ -74,7 +74,8 @@ class VDirectedGraph extends DirectedGraph {
     clearCanvas(context, 
         canvas.parent.client.width,
         canvas.parent.client.height); // clear the canvas
-    draw(context); // draw the nodes
+    drawEdges(context); // Draw the edges first so that the nodes overlay
+    drawNodes(context); // Draw the nodes
     requestUpdate();
   }
   
@@ -83,21 +84,29 @@ class VDirectedGraph extends DirectedGraph {
     context.clearRect(0, 0, width, height);
   }
   
-  // Draws the graph onto the canvas
-  void draw(CanvasRenderingContext2D context) {
-    
-    context..lineWidth = 1
-           ..strokeStyle = "black"
-           ..font = "16px sans-serif"
-           ..textAlign = "center";
+  // Draws the edges to the given context
+  void drawEdges(CanvasRenderingContext2D context) {
+    context..lineWidth = 1.5
+           ..strokeStyle = "black";
     for (var node in this) {
-      for (var edge in dGraph[node]) {
+      for (var edge in edgesFrom(node)) {
         context..beginPath()
                ..moveTo(positions[node][0], positions[node][1])
                ..lineTo(positions[edge][0], positions[edge][1])
                ..stroke()
                ..closePath();
       }
+    }
+  }
+  
+  // Draws the graph onto the canvas
+  void drawNodes(CanvasRenderingContext2D context) {
+    
+    context..lineWidth = 1
+           ..strokeStyle = "black"
+           ..font = "16px sans-serif"
+           ..textAlign = "center";
+    for (var node in this) {
       // draw each node in the graph
       context..fillStyle = "purple"
              ..beginPath()
