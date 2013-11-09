@@ -30,8 +30,8 @@ class VDirectedGraph extends DirectedGraph {
     if (!positions.containsKey(node)) {
       var rng = new Random();
       if (canvas != null) {
-        positions[node] = [canvas.parent.client.width/2 + rng.nextDouble(),
-                           canvas.parent.client.height/2 + rng.nextDouble()];
+        positions[node] = [canvas.client.width/2 + rng.nextDouble(),
+                           canvas.client.height/2 + rng.nextDouble()];
       } else {
         positions[node] = [rng.nextDouble(), rng.nextDouble()];
       }
@@ -45,13 +45,13 @@ class VDirectedGraph extends DirectedGraph {
     if (canvas != null) { // make sure we have a canvas
       // Random Number Generator to produce initial variation
       var rng = new Random();
-      YMAX = canvas.parent.clientHeight-25;
-      XMAX = canvas.parent.clientWidth-25;
+      YMAX = canvas.clientHeight-25;
+      XMAX = canvas.clientWidth-25;
       for (var node in this) {
         // give a position to each node
         // positions currently stored as a 2-element list
-        positions[node] = [canvas.parent.client.width/2 + rng.nextDouble(),
-                           canvas.parent.client.height/2 + rng.nextDouble()];
+        positions[node] = [canvas.client.width/2 + rng.nextDouble(),
+                           canvas.client.height/2 + rng.nextDouble()];
       }
       requestUpdate(); // Begin updating the display
     } else {
@@ -126,7 +126,7 @@ class VDirectedGraph extends DirectedGraph {
   
   // Draws the edges to the given context
   void drawEdges(CanvasRenderingContext2D context) {
-    context..lineWidth = 1.5
+    context..lineWidth = 3
            ..strokeStyle = "black";
     for (var node in this) {
       for (var edge in edgesFrom(node)) {

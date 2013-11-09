@@ -44,6 +44,7 @@ void main() {
   scheduleMicrotask(graph.display);
   
   querySelector("#node-add").onClick.listen(createNode);
+  querySelector("#edge-add").onClick.listen(addEdge);
 }
 
 void createNode(MouseEvent event) {
@@ -51,5 +52,16 @@ void createNode(MouseEvent event) {
   if (name != "") {
     graph.addNode(name);
     name = "";
+  }
+  
+}
+
+void addEdge(MouseEvent event) {
+  String name1 = querySelector("#edge-end-1").value;
+  String name2 = querySelector("#edge-end-2").value;
+  if (name1 != "" && name2 != "") {
+    !graph.edgeExists(name1, name2) ? graph.addEdge(name1, name2) : graph.removeEdge(name1, name2);
+    name1 = "";
+    name2 = "";
   }
 }
