@@ -73,7 +73,8 @@ class DirectedGraph extends IterableBase {
     if (dGraph.containsKey(start) && dGraph.containsKey(dest)) {
       dGraph[start].remove(dest);
     } else {
-      throw new NoSuchElementException("Both nodes must be in the graph.");
+      try{new NoSuchElementException("Both nodes must be in the graph.");} catch(e) {print(e);}
+      return null;
     }
   }
   
