@@ -35,9 +35,19 @@ void main() {
                       ["B","D"],
                       ["E","F"],
                       ["B","A"]];
+  
+  List<List> edge2 = [["A","B"],
+                      ["A","C"],
+                      ["B","D"],
+                      ["B","E"],
+                      ["C","D"],
+                      ["D","E"],
+                      ["C","B"],
+                      ["A","D"]];
 
   //DirectedGraph graph = new VDirectedGraph.fromMatrix(adj3);
-  graph = new VDirectedGraph.fromMatrix(adj2);
+  graph = new VDirectedGraph.fromEdges(edge2);
+  
   
   // Create Visualization
   graph.canvas = querySelector("#area"); // get the canvas from the html
