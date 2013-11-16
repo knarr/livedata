@@ -21,7 +21,7 @@ class VDirectedGraph extends DirectedGraph {
   
   
   VDirectedGraph.fromMatrix(List<List> adj): super.fromMatrix(adj);
-  VDirectedGraph.fromNeighbours(List<List> neig): super.fromNeighbours(neig);
+  VDirectedGraph.fromNeighbors(List<List> neig): super.fromNeighbors(neig);
   VDirectedGraph.fromEdges(List<List> edges): super.fromEdges(edges);
   
   // Overwrite DirectedGraph.addNode so that the position can be added
