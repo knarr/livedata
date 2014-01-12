@@ -20,13 +20,29 @@ class Demo {
   // Construct a demo on the given canvas, starting with the example "startid"
   Demo(String startid, this.canvas) {
     loadGraph(startid); // load the graph from the examples
-    graph.display(canvas); // tell the graph to start displaying on the canvas
+    graph.display(canvas); // Tell the graph to start displaying on the canvas
+    
+    // Set up buttons to allow access to other graphs in the examples
+    DivElement controls = querySelector("#controls"); // containing div for control buttons
+    int i = 0;
+    for (String key in examples.keys) {
+      i++;
+      ButtonElement button = new ButtonElement();
+      button.setInnerHtml("Graph $i"); // Give each button a label
+      
+      // Change the graph to the button this graph represents on click
+      button.onClick.listen((MouseEvent e) {
+        graph.close(); // close the old graph
+        loadGraph(key); // yay closures!
+        graph.display(canvas); // start displaying the new graph
+      });
+      controls.append(button); // Add the button the controls
+    }
   }
   
   // Load a graph from the examples by id
   bool loadGraph(String id) {
     if (!examples.containsKey(id)) return false; // The example was not found
-    
     // Load the graph based on starting prefix
     if (id.startsWith("adj"))
       graph = new VDirectedGraph.fromMatrix(examples[id]);

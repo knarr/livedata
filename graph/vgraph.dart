@@ -13,12 +13,10 @@ import 'graph.dart';
 num dist(List p1, List p2) => sqrt(pow(p1[0]-p2[0], 2) + pow(p1[1]-p2[1],2));
 
 class VDirectedGraph extends DirectedGraph {
-  final int XMIN = 25;
-  int XMAX;
-  final int YMIN = 25;
-  int YMAX;
   final int CONNECTEDEQUILIBRIUM = 100;
   final int FREEEQUILIBRIUM = 300;
+  
+  bool open = false; // Is the graph currently displaying
   
   CanvasElement canvas; // Canvas to draw to
   HashMap positions = new HashMap(); 
@@ -45,12 +43,12 @@ class VDirectedGraph extends DirectedGraph {
   
   // Begin displaying on the given canvas
   void display(canvas) {
+    open = true;
+    scaleFactor = 1;
     this.canvas = canvas; // keep a reference to the canvas
-    
+    canvas.context2D.save();
     // Random Number Generator to produce initial variation
     var rng = new Random();
-    YMAX = canvas.clientHeight-25;
-    XMAX = canvas.clientWidth-25;
     for (var node in this) {
       // give a position to each node
       // positions currently stored as a 2-element list
@@ -60,11 +58,18 @@ class VDirectedGraph extends DirectedGraph {
     requestUpdate(); // Begin updating the display
   }
   
+  // Stop displaying this graph
+  void close() {
+    open = false;
+    canvas.context2D.restore();
+  }
+  
   void requestUpdate() {
     window.requestAnimationFrame(update);
   }
   
   void update(num _) {
+    if (!open) return; // don't update
     for (var first in this) {
       // Adjust the position of each node
       for (var second in this) {
@@ -77,17 +82,6 @@ class VDirectedGraph extends DirectedGraph {
         positions[first][1] += dy/10;
         positions[second][0] -= dx/10;
         positions[second][1] -= dy/10;
-        
-        //buffered screen-edge collision prevention
-        /*if (positions[first][0] > XMAX) positions[first][0] = XMAX;
-        if (positions[first][0] < XMIN) positions[first][0] = XMIN;
-        if (positions[first][1] > YMAX) positions[first][1] = YMAX;
-        if (positions[first][1] < YMIN) positions[first][1] = YMIN;
-        if (positions[second][0] > XMAX) positions[second][0] = XMAX;
-        if (positions[second][0] < XMIN) positions[second][0] = XMIN;
-        if (positions[second][1] > YMAX) positions[second][1] = YMAX;
-        if (positions[second][1] < YMIN) positions[second][1] = YMIN;
-        */
       }
     }
     var context = canvas.context2D;
@@ -117,12 +111,18 @@ class VDirectedGraph extends DirectedGraph {
       up = min(up, positions[node][1]);
       down = max(down, positions[node][1]);
     }
-    num nsf = max((right - left + 120)/canvas.height,
+    num newsf = max((right - left + 120)/canvas.height,
                   (down - up + 120)/canvas.width);
     context.translate(canvas.width/2, canvas.height/2);
-    context.scale(scaleFactor/nsf, scaleFactor/nsf);
+    context.scale(scaleFactor/newsf, scaleFactor/newsf);
     context.translate(-canvas.width/2, -canvas.height/2);
-    scaleFactor = nsf;
+    scaleFactor = newsf;
+  }
+  
+  void unscale(CanvasRenderingContext2D context) {
+    context.translate(canvas.width/2, canvas.height/2);
+    context.scale(1/scaleFactor, 1/scaleFactor);
+    context.translate(-canvas.width/2, -canvas.height/2);
   }
   
   // Draws the edges to the given context
