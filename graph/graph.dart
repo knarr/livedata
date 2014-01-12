@@ -1,5 +1,9 @@
+// file: graph.dart
+// contains: DirectedGraph, NoSuchElementException
+
+library graph;
+
 import 'dart:collection';
-import 'nosuchelement.dart';
 
 class DirectedGraph extends IterableBase {
   final HashMap<Object, HashSet> dGraph = new HashMap();
@@ -60,9 +64,6 @@ class DirectedGraph extends IterableBase {
   HashMap addEdge(var start, var dest) {
     if (dGraph.containsKey(start) && dGraph.containsKey(dest)) {
       dGraph[start].add(dest);
-    } else {
-      try{new NoSuchElementException("Both nodes must be in the graph.");} catch(e){print(e);}
-      return null;
     }
   }
   
@@ -72,9 +73,6 @@ class DirectedGraph extends IterableBase {
   HashMap removeEdge(var start, var dest) {
     if (dGraph.containsKey(start) && dGraph.containsKey(dest)) {
       dGraph[start].remove(dest);
-    } else {
-      try{new NoSuchElementException("Both nodes must be in the graph.");} catch(e) {print(e);}
-      return null;
     }
   }
   
@@ -83,21 +81,13 @@ class DirectedGraph extends IterableBase {
   bool edgeExists(var start, var end) {
     if (dGraph.containsKey(start) && dGraph.containsKey(end)) {
       return dGraph[start].contains(end);
-    } else {
-      try {new NoSuchElementException("Both nodes must be in the graph.");} catch (exception){ print(exception);}
-      return false;
     }
   }
   
   // Given a set of nodes in the graph; returns the nodes accessable from that node.
   // If the node does no exist throws a NoSuchElementException.
   HashSet edgesFrom(var node) {
-    final HashSet arcs = dGraph[node];
-    if (arcs == null) {
-      throw new NoSuchElementException("Source node does not exist.");
-    } else {
-      return arcs;
-    }
+    return dGraph[node];
   }
   
   // Returns the iterator over the nodes in the graph.

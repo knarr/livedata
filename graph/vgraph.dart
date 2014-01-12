@@ -1,8 +1,13 @@
-import 'dart:html';
+// file: vgraph.dart
+// contains: VDirectedGraph
+
+library vgraph;
+
 import 'dart:math';
-import 'graph.dart';
+import 'dart:html';
 import 'dart:collection';
 
+import 'graph.dart';
 
 // should probably implement positions differently so that this isn't necessary...
 num dist(List p1, List p2) => sqrt(pow(p1[0]-p2[0], 2) + pow(p1[1]-p2[1],2));
@@ -38,25 +43,21 @@ class VDirectedGraph extends DirectedGraph {
     }
   }
   
-  // Called after canvas has been set.
-  // Initializes the position of each node and begins drawing.
-  // If canvas is not set throws Exception.
-  void display() {
-    if (canvas != null) { // make sure we have a canvas
-      // Random Number Generator to produce initial variation
-      var rng = new Random();
-      YMAX = canvas.clientHeight-25;
-      XMAX = canvas.clientWidth-25;
-      for (var node in this) {
-        // give a position to each node
-        // positions currently stored as a 2-element list
-        positions[node] = [canvas.client.width/2 + rng.nextDouble(),
-                           canvas.client.height/2 + rng.nextDouble()];
-      }
-      requestUpdate(); // Begin updating the display
-    } else {
-      throw new Exception("Canvas needed to display on");
+  // Begin displaying on the given canvas
+  void display(canvas) {
+    this.canvas = canvas; // keep a reference to the canvas
+    
+    // Random Number Generator to produce initial variation
+    var rng = new Random();
+    YMAX = canvas.clientHeight-25;
+    XMAX = canvas.clientWidth-25;
+    for (var node in this) {
+      // give a position to each node
+      // positions currently stored as a 2-element list
+      positions[node] = [canvas.client.width/2 + rng.nextDouble(),
+                         canvas.client.height/2 + rng.nextDouble()];
     }
+    requestUpdate(); // Begin updating the display
   }
   
   void requestUpdate() {
